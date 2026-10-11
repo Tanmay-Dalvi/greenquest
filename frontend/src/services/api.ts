@@ -4,14 +4,28 @@ import {
 } from '../types/mission';
 import { generateClientFallbackMission } from './fallbackMissions';
 
-const API_BASE = (import.meta as any).env?.VITE_API_URL || '';
+function getApiBase(): string {
+  let url = (import.meta as any).env?.VITE_API_URL || '';
+  if (!url) return '';
+  url = url.trim();
+  // Strip trailing slashes
+  url = url.replace(/\/+$/, '');
+  // If protocol is missing (e.g. Render 'host' property provides 'app.onrender.com'), prepend https://
+  if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
+    url = `https://${url}`;
+  }
+  return url;
+}
+
+const API_BASE = getApiBase();
 
 export async function requestMission(
   preferences: MissionPreferenceRequest
 ): Promise<{ mission: MissionResponse; usedClientOfflineFallback: boolean }> {
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 12000); // 12s client timeout
+    // 35s timeout to allow local open-weight model (Gemma 3 1B on CPU takes ~20-25s) before triggering fallback
+    const timeoutId = setTimeout(() => controller.abort(), 35000);
 
     const res = await fetch(`${API_BASE}/api/missions/generate`, {
       method: 'POST',

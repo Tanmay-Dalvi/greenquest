@@ -100,6 +100,7 @@ greenquest/
 │   │   │   ├── __init__.py
 │   │   │   ├── state.py              # Orchestrator state dataclass & logs
 │   │   │   ├── machine.py            # State machine with bounded retry logic
+│   │   │   ├── repair.py             # Open-weight JSON recovery & sanitation
 │   │   │   ├── rules.py              # Deterministic safety rule checks
 │   │   │   └── agents/
 │   │   │       ├── __init__.py
@@ -114,6 +115,7 @@ greenquest/
 │       ├── test_safety_rules.py      # Deterministic safety blacklist & limits
 │       ├── test_providers.py         # Provider interface & fallback engine
 │       ├── test_orchestrator.py      # State machine steps & retry logic
+│       ├── test_regression_ollama.py # Regression tests for Gemma 3 1B JSON repair & Ollama integration
 │       └── test_api.py               # FastAPI endpoints & error responses
 ├── frontend/
 │   ├── public/
