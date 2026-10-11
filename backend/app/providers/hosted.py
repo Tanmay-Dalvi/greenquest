@@ -89,3 +89,4 @@ class HostedProvider(ModelProvider):
             model_name=self._model_name,
             message="Hosted provider configured",
         )
+

@@ -70,3 +70,4 @@ export interface StoredMissionProgress {
   isFullyCompleted: boolean;
   lastUpdated: string;
 }
+

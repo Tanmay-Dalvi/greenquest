@@ -112,3 +112,4 @@ def test_mission_response_serialization():
     assert data["id"] == "gq-test-123"
     assert len(data["steps"]) == 2
     assert data["generator_info"]["provider"] == "test"
+

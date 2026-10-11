@@ -1,17 +1,31 @@
 """Planner Agent: Designs overarching outdoor theme, narrative arc, and step pacing."""
 import json
 import logging
+from typing import Dict, Any
 from backend.app.models.mission import MissionPreferenceRequest
 from backend.app.models.provider import ProviderCompletionRequest
 from backend.app.providers.base import ModelProvider
 from backend.app.orchestrator.state import PlannerDraft
+from backend.app.orchestrator.repair import clean_and_repair_json
 
 logger = logging.getLogger(__name__)
+
+PLANNER_RESPONSE_SCHEMA: Dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "theme": {"type": "string"},
+        "narrative_arc": {"type": "string"},
+        "target_step_count": {"type": "integer"},
+        "difficulty": {"type": "string"},
+        "allocated_minutes": {"type": "integer"},
+    },
+    "required": ["theme", "narrative_arc", "target_step_count", "difficulty", "allocated_minutes"],
+}
 
 SYSTEM_PROMPT = """You are the GreenQuest Outdoor Adventure Planner.
 Your goal is to get people off their screens and immersed in nature (parks, gardens, forests, neighborhoods).
 Given user preferences (environment, duration, mood, energy, companions, senses), produce a high-level plan.
-Always respond strictly in valid JSON with these exact keys:
+Always respond strictly in valid JSON matching this schema:
 {
   "theme": "A poetic, inspiring 3-6 word theme name",
   "narrative_arc": "One sentence explaining the progression from arrival to grounding to departure",
@@ -40,26 +54,21 @@ class PlannerAgent:
             f"- Sensory Focus: {', '.join(s.value for s in prefs.sensory_focus)}\n"
             f"- Notes / Context: {prefs.notes or 'None'}\n"
             f"- Target step count: {target_steps}\n"
+            f"Respond with exact JSON."
         )
 
         request = ProviderCompletionRequest(
             prompt=prompt,
             system_prompt=SYSTEM_PROMPT,
             json_mode=True,
-            temperature=0.6,
-            max_tokens=256,
+            response_schema=PLANNER_RESPONSE_SCHEMA,
+            temperature=0.3,
+            max_tokens=350,
         )
 
         raw_output = await self.provider.generate(request)
         try:
-            # Extract JSON substring if wrapped in markdown code fence
-            clean_json = raw_output.strip()
-            if "```json" in clean_json:
-                clean_json = clean_json.split("```json")[1].split("```")[0].strip()
-            elif "```" in clean_json:
-                clean_json = clean_json.split("```")[1].split("```")[0].strip()
-
-            data = json.loads(clean_json)
+            data = clean_and_repair_json(raw_output)
             return PlannerDraft(
                 theme=str(data.get("theme", f"{prefs.mood.value.capitalize()} {prefs.environment.value.capitalize()} Quest")),
                 narrative_arc=str(data.get("narrative_arc", "Arrive, observe surroundings, and reflect in the open air.")),
@@ -76,3 +85,4 @@ class PlannerAgent:
                 difficulty="easy",
                 allocated_minutes=prefs.duration_minutes,
             )
+

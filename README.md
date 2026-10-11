@@ -172,3 +172,4 @@ GreenQuest includes a `render.yaml` blueprint for one-click deployment:
 
 ## 📄 License
 MIT License. Built with care for Hacktoberfest 2026 Open-Source AI Challenge.
+

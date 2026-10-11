@@ -18,3 +18,4 @@ class SafetyValidatorAgent:
         )
 
         return review
+

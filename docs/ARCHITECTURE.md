@@ -306,3 +306,4 @@ LLM output is never trusted blindly. The `SafetyEngine` validates:
 1. **PWA Service Worker**: Static bundle (HTML, CSS, JS, SVG assets) cached via Cache Storage on first load.
 2. **Mission Storage**: All generated missions stored in browser `localStorage` / `IndexedDB` with unique IDs, completion timestamps, and step checkbox states.
 3. **Emergency Client-Side Generator**: If the device has no internet connection and the local FastAPI server is not running, the frontend automatically generates full micro-adventures from client-side procedural templates.
+

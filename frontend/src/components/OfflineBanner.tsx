@@ -41,3 +41,4 @@ export const OfflineBanner: React.FC<OfflineBannerProps> = ({
     </div>
   );
 };
+

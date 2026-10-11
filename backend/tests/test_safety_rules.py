@@ -98,3 +98,4 @@ def test_safety_enforces_leave_no_trace():
     review = evaluate_mission_safety(title, steps, leave_no_trace, safety_notes)
     assert review.is_safe is False
     assert any("leave-no-trace" in v.lower() for v in review.violations)
+

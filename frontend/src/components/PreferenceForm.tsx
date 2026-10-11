@@ -323,3 +323,4 @@ export const PreferenceForm: React.FC<PreferenceFormProps> = ({ onSubmit, isLoad
     </form>
   );
 };
+

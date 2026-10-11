@@ -74,3 +74,4 @@ async def test_generate_mission_endpoint_invalid_payload():
         }
         response = await client.post("/api/missions/generate", json=payload)
         assert response.status_code == 422
+

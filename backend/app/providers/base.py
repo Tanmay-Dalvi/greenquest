@@ -48,3 +48,4 @@ class ModelProvider(ABC):
         Must not raise exceptions; returns ProviderStatus with is_available boolean.
         """
         pass
+

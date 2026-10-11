@@ -46,7 +46,9 @@ class OllamaProvider(ModelProvider):
                 "num_predict": request.max_tokens,
             },
         }
-        if request.json_mode:
+        if request.response_schema:
+            payload["format"] = request.response_schema
+        elif request.json_mode:
             payload["format"] = "json"
 
         start_time = time.perf_counter()
@@ -122,3 +124,4 @@ class OllamaProvider(ModelProvider):
                 latency_ms=round(elapsed_ms, 2),
                 message=f"Ollama unreachable: {str(exc)}",
             )
+

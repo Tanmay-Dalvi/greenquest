@@ -144,3 +144,4 @@ async def test_orchestrator_bounded_retry_and_remediation():
     assert mission.generator_info.fallback_used is False
     assert mission.generator_info.safety_validated is True
     assert len(mission.steps) == 2
+

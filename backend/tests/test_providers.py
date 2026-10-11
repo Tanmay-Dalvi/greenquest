@@ -75,3 +75,4 @@ async def test_hosted_provider_unconfigured():
 
     with pytest.raises(ProviderUnavailableError):
         await provider.generate(ProviderCompletionRequest(prompt="hello"))
+

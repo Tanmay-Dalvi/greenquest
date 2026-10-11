@@ -60,3 +60,4 @@
 - [ ] Verify vertical slice end-to-end
 - [ ] Update `README.md` with setup instructions, screenshots/demos, and run commands
 - [ ] Commit changes with clear Git history
+
