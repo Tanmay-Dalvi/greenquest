@@ -1,0 +1,19 @@
+{
+  "name": "GreenQuest — Outdoor Micro-Adventures",
+  "short_name": "GreenQuest",
+  "description": "Personalized outdoor micro-adventures using open-weight AI. Less screen time, more nature.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbf8f1",
+  "theme_color": "#1b382b",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "64x64 128x128 192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "outdoors", "health", "mindfulness"]
+}
