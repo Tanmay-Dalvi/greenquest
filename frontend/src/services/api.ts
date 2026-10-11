@@ -3,21 +3,10 @@ import {
   MissionResponse,
 } from '../types/mission';
 import { generateClientFallbackMission } from './fallbackMissions';
+import { normalizeApiBase } from './url';
 
-function getApiBase(): string {
-  let url = (import.meta as any).env?.VITE_API_URL || '';
-  if (!url) return '';
-  url = url.trim();
-  // Strip trailing slashes
-  url = url.replace(/\/+$/, '');
-  // If protocol is missing (e.g. Render 'host' property provides 'app.onrender.com'), prepend https://
-  if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
-    url = `https://${url}`;
-  }
-  return url;
-}
-
-const API_BASE = getApiBase();
+export { normalizeApiBase };
+export const API_BASE = normalizeApiBase();
 
 export async function requestMission(
   preferences: MissionPreferenceRequest
