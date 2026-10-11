@@ -13,6 +13,8 @@ async def test_health_endpoint():
         data = response.json()
         assert data["status"] == "healthy"
         assert data["service"] == "GreenQuest API"
+        assert "configured_provider" in data
+        assert "force_fallback" in data
 
 
 @pytest.mark.asyncio
@@ -39,6 +41,8 @@ async def test_sample_mission_endpoint():
         assert "id" in data
         assert "steps" in data
         assert len(data["steps"]) >= 2
+        assert data["generator_info"]["provider"] == "fallback"
+        assert data["generator_info"]["fallback_used"] is True
 
 
 @pytest.mark.asyncio
@@ -61,6 +65,10 @@ async def test_generate_mission_endpoint_valid_payload():
         assert data["estimated_duration_minutes"] == 25
         assert len(data["steps"]) >= 2
         assert "generator_info" in data
+        gen_info = data["generator_info"]
+        assert "provider" in gen_info
+        assert "fallback_used" in gen_info
+        assert isinstance(gen_info["fallback_used"], bool)
 
 
 @pytest.mark.asyncio

@@ -57,7 +57,11 @@ export const App: React.FC = () => {
     setIsLoading(true);
     setErrorMsg(null);
     try {
-      const { mission } = await requestMission(prefs);
+      const { mission, usedClientOfflineFallback } = await requestMission(prefs);
+      // If the mission was successfully returned by the backend, restore online status
+      if (!usedClientOfflineFallback) {
+        setIsOnline(true);
+      }
       setActiveMission(mission);
       storage.saveActiveMission(mission);
       setHistory(storage.getMissionHistory());

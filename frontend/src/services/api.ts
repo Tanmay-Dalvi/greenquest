@@ -55,7 +55,8 @@ export async function requestMission(
 export async function checkBackendHealth(): Promise<{ online: boolean; message?: string }> {
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3000);
+    // 8s timeout to accommodate Render cloud cold starts and TLS negotiation latency
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
     const res = await fetch(`${API_BASE}/api/health`, { signal: controller.signal });
     clearTimeout(timeoutId);
     if (res.ok) {
